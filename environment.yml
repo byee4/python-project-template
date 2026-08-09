@@ -1,0 +1,14 @@
+# Conda dev environment. Create with:
+#   conda env create -f environment.yml
+#   conda activate mytool
+# Then install the package itself in editable mode:
+#   pip install -e ".[dev]"
+name: mytool
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - click>=8.1
+  - pip
+  - pip:
+      - -e ".[dev]"

@@ -1,0 +1,45 @@
+{% set name = "mytool" %}
+{% set version = "0.1.0" %}
+
+# conda-build recipe. Build a local package with:
+#   conda build conda/ -c conda-forge
+# See docs/deployment.md for publishing to a channel (e.g. anaconda.org).
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  # For a real release, point at the sdist on PyPI and pin its sha256:
+  #   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  #   sha256: <fill-in>
+  # During development, build straight from this working tree:
+  path: ..
+
+build:
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  entry_points:
+    - mytool = mytool.cli:main
+
+requirements:
+  host:
+    - python >=3.10
+    - hatchling
+    - pip
+  run:
+    - python >=3.10
+    - click >=8.1
+
+test:
+  imports:
+    - mytool
+  commands:
+    - mytool --help
+
+about:
+  home: https://github.com/brian-yee/mytool
+  license: MIT
+  license_file: ../LICENSE
+  summary: A starter command-line tool.

@@ -1,0 +1,27 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Packaging / conda
+*.tar.bz2
+*.conda
+conda-bld/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
