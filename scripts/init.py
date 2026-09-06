@@ -29,6 +29,25 @@ TEXT_NAMES = {"Dockerfile", "Makefile", "LICENSE", ".dockerignore", ".gitignore"
 
 
 def valid(name: str) -> str:
+    """Normalize and validate a distribution name.
+
+    Parameters
+    ----------
+    name : str
+        Candidate distribution name. Surrounding whitespace is ignored and
+        underscores are normalized to hyphens.
+
+    Returns
+    -------
+    str
+        Lowercase, hyphen-delimited distribution slug.
+
+    Raises
+    ------
+    SystemExit
+        If the normalized name does not begin with a letter or contains an
+        unsupported character.
+    """
     slug = name.strip().lower().replace("_", "-")
     if not re.fullmatch(r"[a-z][a-z0-9-]*", slug):
         sys.exit(f"Invalid name {name!r}: use letters, digits, and hyphens; start with a letter.")
@@ -36,6 +55,21 @@ def valid(name: str) -> str:
 
 
 def main() -> None:
+    """Rename template placeholders and remove the one-time initializer.
+
+    Raises
+    ------
+    SystemExit
+        If the command-line or prompted project name is invalid.
+    OSError
+        If a template file cannot be rewritten, the package cannot be renamed,
+        or this initializer cannot remove itself.
+
+    Notes
+    -----
+    The distribution name remains hyphen-delimited while the import package
+    uses underscores. Files that cannot be decoded as UTF-8 are left unchanged.
+    """
     raw = sys.argv[1] if len(sys.argv) > 1 else input("New project name (e.g. my-cli): ")
     dist = valid(raw)
     pkg = dist.replace("-", "_")
