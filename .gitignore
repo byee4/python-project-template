@@ -25,3 +25,5 @@ conda-bld/
 .idea/
 *.swp
 .DS_Store
+
+/.codebase-memory/
